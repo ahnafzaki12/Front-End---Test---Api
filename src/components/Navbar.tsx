@@ -83,11 +83,11 @@ export default function Navbar() {
               className="group flex items-center gap-2 md:gap-3 p-1 md:p-1.5 md:pr-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full transition-all outline-none cursor-pointer"
             >
               <div className="w-8 h-8 md:w-9 md:h-9 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs md:text-sm font-bold shadow-sm">
-                {user?.fullName?.charAt(0).toUpperCase()}
+                {user?.name?.charAt(0).toUpperCase()}
               </div>
               <div className="hidden lg:block text-left">
                 <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight">
-                  {user?.fullName}
+                  {user?.name}
                 </p>
               </div>
               <svg
@@ -106,7 +106,7 @@ export default function Navbar() {
                   <p
                     className="w-full text-left px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 rounded-lg transition-colors"
                   >
-                    {user?.fullName}
+                    {user?.name}
                   </p>
                   <button
                     onClick={() => { navigate('/profile'); setOpen(false); }}

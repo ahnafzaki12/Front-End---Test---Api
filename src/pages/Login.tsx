@@ -11,13 +11,16 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const success = login(username, password)
+
+    const success = await login(username, password)
+
     if (!success) {
       setError('Username atau password salah')
       return
     }
+
     navigate('/')
   }
 
@@ -59,7 +62,7 @@ export default function Login() {
                 </label>
                 <div className="relative">
                   <input
-                    type={showPassword ? "text" : "password"} 
+                    type={showPassword ? "text" : "password"}
                     className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3.5 pr-12 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:text-white transition-all text-base placeholder:text-gray-400"
                     placeholder="••••••••"
                     value={password}
@@ -68,7 +71,7 @@ export default function Login() {
                   />
 
                   <button
-                    type="button" 
+                    type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors cursor-pointer"
                   >

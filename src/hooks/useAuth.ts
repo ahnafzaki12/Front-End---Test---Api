@@ -1,54 +1,59 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { getStorage, setStorage, removeStorage } from '../utils/storage'
 import type { User } from '../types/user'
+import { apiFetch } from "../services/api"
+
 
 const AUTH_KEY = 'auth'
 
-const STATIC_CREDENTIAL = {
-  username: 'admin',
-  password: 'admin123',
-  fullName: 'Administrator',
-}
-
 export function useAuth() {
   const [user, setUser] = useState<User | null>(() => {
-    const saved = getStorage<{ user: User }>(AUTH_KEY)
-    return saved?.user || null
+    const saved = getStorage<User>(AUTH_KEY)
+    return saved || null
   })
 
-  useEffect(() => {
-    const saved = getStorage<{ user: User }>(AUTH_KEY)
-    if (saved?.user) {
-      setUser(saved.user)
-    }
-  }, [])
+  async function login(username: string, password: string) {
+    try {
+      const res = await apiFetch("/login", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+      })
 
-  function login(username: string, password: string): boolean {
-    if (
-      username === STATIC_CREDENTIAL.username &&
-      password === STATIC_CREDENTIAL.password
-    ) {
-      const userData = {
-        username,
-        fullName: STATIC_CREDENTIAL.fullName,
-      }
-      setUser(userData)
-      setStorage(AUTH_KEY, { user: userData })
+      const admin = res.data.admin
+      const token = res.data.token
+
+      localStorage.setItem("token", token)
+      setStorage(AUTH_KEY, admin)
+
+      setUser(admin)
+
       return true
+    } catch (err) {
+      return false
     }
-    return false
   }
 
-  function logout() {
-    setUser(null)
+  async function logout() {
+    try {
+      await apiFetch("/logout", {
+        method: "POST",
+      })
+    } catch { }
+
+    localStorage.removeItem("token")
     removeStorage(AUTH_KEY)
+
+    setUser(null)
   }
 
-  function updateProfile(fullName: string) {
-    if (!user) return
-    const updated = { ...user, fullName }
-    setUser(updated)
-    setStorage(AUTH_KEY, { user: updated })
+  function updateProfile(newName: string) {
+    if (!user) return;
+
+    const updatedUser = { ...user, name: newName };
+
+    setUser(updatedUser);
+
+    setStorage(AUTH_KEY, updatedUser);
   }
 
   return {

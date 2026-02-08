@@ -4,7 +4,7 @@ import { useAuthContext } from '../context/AuthContext'
 
 export default function Profile() {
     const { user, updateProfile } = useAuthContext()
-    const [fullName, setFullName] = useState(user?.fullName || '')
+    const [fullName, setFullName] = useState(user?.name || '')
     const [saved, setSaved] = useState(false)
 
     function handleSubmit(e: React.FormEvent) {
