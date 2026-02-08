@@ -10,18 +10,27 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    setError('') 
+    setIsLoading(true) 
 
-    const success = await login(username, password)
+    try {
+      const success = await login(username, password)
 
-    if (!success) {
-      setError('Username atau password salah')
-      return
+      if (!success) {
+        setError('Username atau password salah')
+        setIsLoading(false)
+        return
+      }
+
+      navigate('/')
+    } catch (err) {
+      setError('Terjadi kesalahan jaringan. Silakan coba lagi.')
+      setIsLoading(false)
     }
-
-    navigate('/')
   }
 
   return (
@@ -48,7 +57,8 @@ export default function Login() {
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:text-white transition-all text-base placeholder:text-gray-400"
+                  disabled={isLoading} 
+                  className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:text-white transition-all text-base placeholder:text-gray-400 disabled:opacity-50"
                   placeholder="Masukkan username Anda"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -63,7 +73,8 @@ export default function Login() {
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
-                    className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3.5 pr-12 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:text-white transition-all text-base placeholder:text-gray-400"
+                    disabled={isLoading} 
+                    className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3.5 pr-12 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:text-white transition-all text-base placeholder:text-gray-400 disabled:opacity-50"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -72,8 +83,9 @@ export default function Login() {
 
                   <button
                     type="button"
+                    disabled={isLoading}
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors cursor-pointer"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors cursor-pointer disabled:hidden"
                   >
                     {showPassword ? (
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
@@ -90,8 +102,21 @@ export default function Login() {
               </div>
 
               <div className="pt-2">
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all cursor-pointer text-base">
-                  Masuk ke Akun
+                <button 
+                  disabled={isLoading}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all cursor-pointer text-base flex items-center justify-center gap-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Memproses...
+                    </>
+                  ) : (
+                    "Masuk ke Akun"
+                  )}
                 </button>
               </div>
             </form>

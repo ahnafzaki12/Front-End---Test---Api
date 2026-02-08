@@ -56,14 +56,14 @@ export default function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <Link to="/" className={`transition-colors cursor-pointer ${activeClass('/')}`}>Home</Link>
-            <Link to="/crud" className={`transition-colors cursor-pointer ${activeClass('/crud')}`}>CRUD Data</Link>
+            <Link to="/" className={`transition-colors cursor-pointer ${activeClass('/')}`}>Beranda</Link>
+            <Link to="/crud" className={`transition-colors cursor-pointer ${activeClass('/crud')}`}>Data Karyawan</Link>
           </div>
         </div>
 
         <div className="flex items-center gap-2 md:gap-6">
-          <div className="hidden xs:flex bg-gray-100 dark:bg-gray-800 p-1 rounded-full border border-gray-200 dark:border-gray-700">
-            {['light', 'dark', 'system'].map((t) => (
+          <div className="hidden sm:flex bg-gray-100 dark:bg-gray-800 p-1 rounded-full border border-gray-200 dark:border-gray-700">
+            {['terang', 'gelap', 'sistem'].map((t) => (
               <button
                 key={t}
                 onClick={() => changeTheme(t as any)}
@@ -112,13 +112,13 @@ export default function Navbar() {
                     onClick={() => { navigate('/profile'); setOpen(false); }}
                     className="w-full text-left px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-colors cursor-pointer"
                   >
-                    Edit Profile
+                    Ubah Profil
                   </button>
                   <button
                     onClick={handleLogout}
                     className="w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors mt-1 cursor-pointer font-medium"
                   >
-                    Logout Account
+                    Keluar Akun
                   </button>
                 </div>
               </div>
@@ -134,17 +134,17 @@ export default function Navbar() {
             onClick={() => setMobileMenuOpen(false)}
             className={`block px-2 py-2 rounded-lg ${activeClass('/')}`}
           >
-            Home
+            Beranda
           </Link>
           <Link 
             to="/crud" 
             onClick={() => setMobileMenuOpen(false)}
             className={`block px-2 py-2 rounded-lg ${activeClass('/crud')}`}
           >
-            CRUD Data
+            Data Karyawan
           </Link>
           <div className="xs:hidden pt-4 flex gap-2">
-             {['light', 'dark', 'system'].map((t) => (
+             {['terang', 'gelap', 'sistem'].map((t) => (
                 <button 
                   key={t}
                   onClick={() => changeTheme(t as any)}

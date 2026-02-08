@@ -5,7 +5,7 @@ const THEME_KEY = 'theme'
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(() => {
-    return (localStorage.getItem(THEME_KEY) as Theme) || 'system'
+    return (localStorage.getItem(THEME_KEY) as Theme) || 'sistem'
   })
 
   useEffect(() => {
@@ -13,8 +13,8 @@ export function useTheme() {
 
     function applyTheme(mode: Theme) {
       const isDark =
-        mode === 'dark' ||
-        (mode === 'system' &&
+        mode === 'gelap' ||
+        (mode === 'sistem' &&
           window.matchMedia('(prefers-color-scheme: dark)').matches)
 
       root.classList.toggle('dark', isDark)
@@ -22,9 +22,9 @@ export function useTheme() {
 
     applyTheme(theme)
 
-    if (theme === 'system') {
+    if (theme === 'sistem') {
       const media = window.matchMedia('(prefers-color-scheme: dark)')
-      const listener = () => applyTheme('system')
+      const listener = () => applyTheme('sistem')
       media.addEventListener('change', listener)
       return () => media.removeEventListener('change', listener)
     }
