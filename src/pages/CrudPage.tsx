@@ -130,7 +130,6 @@ export default function CrudPage() {
                 <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Manajemen Data Karyawan</h1>
-                        <p className="text-gray-500 dark:text-gray-400 text-sm">Kelola data karyawan PT Aksamedia</p>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
@@ -205,7 +204,6 @@ export default function CrudPage() {
 
                     <div className="lg:col-span-2 space-y-6">
                         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
-                            {/* VIEW DESKTOP (Muncul di layar md ke atas) */}
                             <div className="hidden md:block overflow-x-auto">
                                 <table className="w-full text-left border-collapse">
                                     <thead className="bg-gray-50 dark:bg-gray-700/50 border-b border-gray-100 dark:border-gray-700">
@@ -253,7 +251,6 @@ export default function CrudPage() {
                                 </table>
                             </div>
 
-                            {/* VIEW MOBILE (Muncul di layar di bawah md) */}
                             <div className="md:hidden divide-y divide-gray-100 dark:divide-gray-700">
                                 {loading ? (
                                     <div className="p-6 text-center animate-pulse text-gray-400">Memuat data...</div>
@@ -291,7 +288,6 @@ export default function CrudPage() {
                             </div>
                         </div>
 
-                        {/* PAGINATION (Responsive gap) */}
                         <div className="flex flex-wrap justify-center items-center gap-2 mt-4 pb-8">
                             {pagination && pagination.last_page > 0 ? (
                                 [...Array(pagination.last_page)].map((_, i) => (
