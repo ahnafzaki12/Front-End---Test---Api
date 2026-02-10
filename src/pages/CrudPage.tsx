@@ -289,19 +289,26 @@ export default function CrudPage() {
                         </div>
 
                         <div className="flex flex-wrap justify-center items-center gap-2 mt-4 pb-8">
-                            {pagination && pagination.last_page > 0 ? (
-                                [...Array(pagination.last_page)].map((_, i) => (
+                            {pagination && pagination.total_pages > 1 ? (
+                                [...Array(pagination.total_pages)].map((_, i) => (
                                     <button
                                         key={i}
-                                        onClick={() => setParams({ search, division_id: filterDivision, page: String(i + 1) })}
-                                        className={`min-w-9 h-9 rounded-lg font-bold text-sm transition-all cursor-pointer shadow-sm ${Number(page) === i + 1 ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-500 border border-gray-100 dark:border-gray-700'}`}
+                                        onClick={() =>
+                                            setParams({
+                                                search,
+                                                division_id: filterDivision,
+                                                page: String(i + 1),
+                                            })
+                                        }
+                                        className={`min-w-9 h-9 rounded-lg font-bold text-sm transition-all cursor-pointer shadow-sm ${Number(page) === i + 1
+                                                ? 'bg-blue-600 text-white'
+                                                : 'bg-white dark:bg-gray-800 text-gray-500 border border-gray-100 dark:border-gray-700'
+                                            }`}
                                     >
                                         {i + 1}
                                     </button>
                                 ))
-                            ) : (
-                                <button className="min-w-9 h-9 rounded-lg font-bold text-sm bg-blue-600 text-white shadow-sm">1</button>
-                            )}
+                            ) : null}
                         </div>
                     </div>
                 </div>
