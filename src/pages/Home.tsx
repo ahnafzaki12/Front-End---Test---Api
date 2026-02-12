@@ -21,11 +21,27 @@ export default function DashboardPage() {
                     getDivisions('')
                 ])
 
+                const employees = empRes.data.employees || []
+                const divisions = divRes.data.divisions || []
+
+                const distribution = divisions.map((div: any) => {
+                    const count = employees.filter((emp: any) => emp.division_id === div.id).length
+                    const percentage = employees.length > 0
+                        ? Math.round((count / employees.length) * 100)
+                        : 0
+
+                    return {
+                        ...div,
+                        realCount: count,
+                        percentage: percentage
+                    }
+                })
+
                 setStats({
-                    totalEmployees: empRes.pagination?.total || 0,
-                    totalDivisions: divRes.data.divisions?.length || 0,
-                    latestEmployee: empRes.data.employees[0] || null,
-                    divisionDistribution: divRes.data.divisions.slice(0, 4)
+                    totalEmployees: empRes.pagination?.total || employees.length,
+                    totalDivisions: divisions.length,
+                    latestEmployee: employees[0] || null,
+                    divisionDistribution: distribution.sort((a: any, b:any) => b.percentage - a.percentage).slice(0, 4)
                 })
             } catch (err) {
                 console.error("API Error", err)
@@ -134,27 +150,24 @@ export default function DashboardPage() {
                         <span className="text-xs text-gray-400">Diperbarui 1m ago</span>
                     </div>
                     <div className="space-y-6">
-                        {stats.divisionDistribution.map((div, i) => {
-                            const realPercentage = stats.totalEmployees > 0
-                                ? Math.round((div.employees_count / stats.totalEmployees) * 100)
-                                : 0;
-
-                            return (
-                                <div key={i} className="space-y-2">
-                                    <div className="flex justify-between text-sm font-bold">
-                                        <span className="text-gray-700 dark:text-gray-300">{div.name}</span>
-                                        <span className="text-gray-400">{realPercentage}%</span>
-                                    </div>
-                                    <div className="w-full h-3 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                                        <div
-                                            className={`h-full rounded-full transition-all duration-1000 ${i % 2 === 0 ? 'bg-blue-500' : 'bg-purple-500'
-                                                }`}
-                                            style={{ width: `${realPercentage}%` }}
-                                        ></div>
-                                    </div>
+                        {stats.divisionDistribution.map((div, i) => (
+                            <div key={i} className="space-y-2">
+                                <div className="flex justify-between text-sm font-bold">
+                                    <span className="text-gray-700 dark:text-gray-300">{div.name}</span>
+                                    <span className="text-gray-400">{div.percentage}%</span>
                                 </div>
-                            );
-                        })}
+                                <div className="w-full h-3 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                                    <div
+                                        className={`h-full rounded-full transition-all duration-1000 ${i % 2 === 0 ? 'bg-blue-500' : 'bg-purple-500'
+                                            }`}
+                                        style={{ width: `${div.percentage}%` }}
+                                    ></div>
+                                </div>
+                                <p className="text-[10px] text-gray-400 font-medium italic">
+                                    {div.realCount} Karyawan terpantau
+                                </p>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
