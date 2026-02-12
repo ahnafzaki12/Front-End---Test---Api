@@ -14,8 +14,8 @@ export default function Login() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    setError('') 
-    setIsLoading(true) 
+    setError('')
+    setIsLoading(true)
 
     try {
       const success = await login(username, password)
@@ -57,7 +57,7 @@ export default function Login() {
                 </label>
                 <input
                   type="text"
-                  disabled={isLoading} 
+                  disabled={isLoading}
                   className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:text-white transition-all text-base placeholder:text-gray-400 disabled:opacity-50"
                   placeholder="Masukkan username Anda"
                   value={username}
@@ -73,7 +73,7 @@ export default function Login() {
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
-                    disabled={isLoading} 
+                    disabled={isLoading}
                     className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3.5 pr-12 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:text-white transition-all text-base placeholder:text-gray-400 disabled:opacity-50"
                     placeholder="••••••••"
                     value={password}
@@ -102,7 +102,7 @@ export default function Login() {
               </div>
 
               <div className="pt-2">
-                <button 
+                <button
                   disabled={isLoading}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all cursor-pointer text-base flex items-center justify-center gap-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
                 >
@@ -120,6 +120,27 @@ export default function Login() {
                 </button>
               </div>
             </form>
+            {/* Hint Area */}
+            <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-800">
+              <div className="bg-blue-50/50 dark:bg-blue-900/10 rounded-2xl p-4">
+                <div className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-blue-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div>
+                    <p className="text-xs font-bold text-blue-800 dark:text-blue-400 uppercase tracking-wider mb-1">Akses Demo</p>
+                    <div className="flex flex-col gap-1">
+                      <p className="text-sm text-blue-700 dark:text-blue-300">
+                        Username: <span className="font-mono font-bold select-all">admin</span>
+                      </p>
+                      <p className="text-sm text-blue-700 dark:text-blue-300">
+                        Password: <span className="font-mono font-bold select-all">admin</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

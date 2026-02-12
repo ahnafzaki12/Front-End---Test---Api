@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { getStorage, setStorage, removeStorage } from '../utils/storage'
 import type { User } from '../types/user'
 import { apiFetch } from "../services/api"
-
-
+import { updateAdminProfile } from "../services/authService"
+import type { ProfileData } from "../services/authService"
 const AUTH_KEY = 'auth'
 
 export function useAuth() {
@@ -26,7 +26,6 @@ export function useAuth() {
       setStorage(AUTH_KEY, admin)
 
       setUser(admin)
-
       return true
     } catch (err) {
       return false
@@ -42,18 +41,26 @@ export function useAuth() {
 
     localStorage.removeItem("token")
     removeStorage(AUTH_KEY)
-
     setUser(null)
   }
 
-  function updateProfile(newName: string) {
+  async function updateProfile(formData: ProfileData) {
     if (!user) return;
 
-    const updatedUser = { ...user, name: newName };
+    try {
+      const res = await updateAdminProfile(formData);
 
-    setUser(updatedUser);
+      if (res.status === 'success') {
+        const updatedUser = res.data;
 
-    setStorage(AUTH_KEY, updatedUser);
+        setUser(updatedUser);
+        setStorage(AUTH_KEY, updatedUser);
+
+        return res;
+      }
+    } catch (err) {
+      throw err; 
+    }
   }
 
   return {

@@ -1,73 +1,87 @@
-# React + TypeScript + Vite
+# 📙 README – TUGAS 3 (Integrasi Frontend + Backend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+```markdown
+# Fullstack Integration – API Version  
+Frontend + Backend Integration  
+PT Aksamedia Mulia Digital  
 
-Currently, two official plugins are available:
+## 👨‍💻 Author
+Muhammad Ahnaf Zaki  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🧩 Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Frontend:
+- React
+- React Router
+- Context API
+- Tailwind CSS
+- Axios
 
-## Expanding the ESLint configuration
+Backend:
+- Laravel
+- MySQL
+- REST API
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Deployment:
+- Vercel (Frontend)
+- Railway (Backend)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🎯 Overview
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Project ini merupakan integrasi antara:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Tugas 1 (Frontend)
+- Tugas 2 (Backend API)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Frontend telah di-refactor untuk menggunakan API Laravel sebagai data source utama.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 🔐 Authentication Flow
+
+Login → Backend API → Token → Context API → Protected Routes
+
+
+---
+
+## 📊 Features
+
+- API-based authentication
+- CRUD terhubung ke database
+- Search & filter via query params
+- Pagination dari Laravel
+- Error handling
+- Loading state
+- Environment variable configuration
+
+---
+
+## 🛠 Installation
+
+Frontend:
+
+```bash
+npm install
+npm run dev
+Backend:
+
+composer install
+php artisan migrate --seed
+php artisan serve
+🌐 Live Demo
+Frontend:
+https://front-end-test-api.vercel.app/
+
+Backend:
+https://back-end-test-production-4bef.up.railway.app/
+
+🧠 Architecture
+React (Vercel)
+      ↓
+Laravel API (Railway)
+      ↓
+MySQL Database

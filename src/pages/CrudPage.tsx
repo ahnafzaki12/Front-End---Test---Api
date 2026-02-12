@@ -1,9 +1,11 @@
 import { useEffect, useState, useCallback } from 'react'
-import Navbar from '../components/Navbar'
 import { useSearchParams } from 'react-router-dom'
 import { getEmployees, deleteEmployee, createEmployee, updateEmployee } from '../services/employeeService'
 import { getDivisions } from '../services/divisionService'
 import type { Division, Employee } from '../types/item'
+import Alert from '../components/Alert'
+import Pagination from '../components/Pagination'
+import MainLayout from '../components/MainLayout'
 
 export default function CrudPage() {
     const [employees, setEmployees] = useState<Employee[]>([])
@@ -123,10 +125,8 @@ export default function CrudPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors">
-            <Navbar />
-            <div className="p-8 max-w-7xl mx-auto md:p-6 md:ml-14 md:mr-16 md:max-w-none md:mx-0">
-
+        <>
+            <MainLayout>
                 <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Manajemen Data Karyawan</h1>
@@ -157,11 +157,7 @@ export default function CrudPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-1">
-                        {alert && (
-                            <div className={`mb-6 flex items-center gap-3 p-4 rounded-xl border animate-in fade-in slide-in-from-top-2 duration-300 ${alert.type === 'success' ? 'bg-green-50 dark:bg-green-900/20 border-green-100 dark:border-green-800' : 'bg-red-50 dark:bg-red-900/20 border-red-100 dark:border-red-800'}`}>
-                                <p className={`text-sm font-medium ${alert.type === 'success' ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'}`}>{alert.msg}</p>
-                            </div>
-                        )}
+                        {alert && <Alert msg={alert.msg} type={alert.type} />}
 
                         <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 sticky top-24">
                             <h2 className="text-lg font-bold mb-5 dark:text-white">{editingId ? 'Edit Karyawan' : 'Tambah Karyawan Baru'}</h2>
@@ -289,44 +285,46 @@ export default function CrudPage() {
                         </div>
 
                         <div className="flex flex-wrap justify-center items-center gap-2 mt-4 pb-8">
-                            {pagination && pagination.total_pages > 1 ? (
-                                [...Array(pagination.total_pages)].map((_, i) => (
-                                    <button
-                                        key={i}
-                                        onClick={() =>
-                                            setParams({
-                                                search,
-                                                division_id: filterDivision,
-                                                page: String(i + 1),
-                                            })
-                                        }
-                                        className={`min-w-9 h-9 rounded-lg font-bold text-sm transition-all cursor-pointer shadow-sm ${Number(page) === i + 1
-                                                ? 'bg-blue-600 text-white'
-                                                : 'bg-white dark:bg-gray-800 text-gray-500 border border-gray-100 dark:border-gray-700'
-                                            }`}
-                                    >
-                                        {i + 1}
-                                    </button>
-                                ))
-                            ) : null}
+                            <Pagination
+                                totalPages={pagination?.total_pages || 0}
+                                currentPage={Number(page)}
+                                onPageChange={(newPage) => setParams({
+                                    search,
+                                    division_id: filterDivision,
+                                    page: String(newPage)
+                                })}
+                            />
                         </div>
                     </div>
                 </div>
-            </div>
+            </MainLayout >
 
             {isDeleteModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm" onClick={() => setIsDeleteModalOpen(false)}></div>
+                    <div
+                        className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm"
+                        onClick={() => setIsDeleteModalOpen(false)}
+                    ></div>
                     <div className="relative bg-white dark:bg-gray-900 w-full max-w-xs rounded-2xl shadow-2xl p-6 text-center animate-in zoom-in-95">
                         <h3 className="text-lg font-bold dark:text-white mb-2">Hapus Data?</h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Tindakan ini tidak dapat dibatalkan.</p>
                         <div className="flex gap-2">
-                            <button onClick={() => setIsDeleteModalOpen(false)} className="flex-1 py-2.5 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-xl text-sm cursor-pointer">Batal</button>
-                            <button onClick={executeDelete} className="flex-1 py-2.5 bg-red-500 text-white font-bold rounded-xl text-sm hover:bg-red-600 cursor-pointer">Ya, Hapus</button>
+                            <button
+                                onClick={() => setIsDeleteModalOpen(false)}
+                                className="flex-1 py-2.5 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-xl text-sm cursor-pointer"
+                            >
+                                Batal
+                            </button>
+                            <button
+                                onClick={executeDelete}
+                                className="flex-1 py-2.5 bg-red-500 text-white font-bold rounded-xl text-sm hover:bg-red-600 cursor-pointer"
+                            >
+                                Ya, Hapus
+                            </button>
                         </div>
                     </div>
                 </div>
             )}
-        </div>
-    )
-}
+        </>
+    );
+} 
