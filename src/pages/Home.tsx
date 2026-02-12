@@ -134,20 +134,27 @@ export default function DashboardPage() {
                         <span className="text-xs text-gray-400">Diperbarui 1m ago</span>
                     </div>
                     <div className="space-y-6">
-                        {stats.divisionDistribution.map((div, i) => (
-                            <div key={i} className="space-y-2">
-                                <div className="flex justify-between text-sm font-bold">
-                                    <span className="text-gray-700 dark:text-gray-300">{div.name}</span>
-                                    <span className="text-gray-400">{Math.floor(Math.random() * 40 + 10)}%</span>
+                        {stats.divisionDistribution.map((div, i) => {
+                            const realPercentage = stats.totalEmployees > 0
+                                ? Math.round((div.employees_count / stats.totalEmployees) * 100)
+                                : 0;
+
+                            return (
+                                <div key={i} className="space-y-2">
+                                    <div className="flex justify-between text-sm font-bold">
+                                        <span className="text-gray-700 dark:text-gray-300">{div.name}</span>
+                                        <span className="text-gray-400">{realPercentage}%</span>
+                                    </div>
+                                    <div className="w-full h-3 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                                        <div
+                                            className={`h-full rounded-full transition-all duration-1000 ${i % 2 === 0 ? 'bg-blue-500' : 'bg-purple-500'
+                                                }`}
+                                            style={{ width: `${realPercentage}%` }}
+                                        ></div>
+                                    </div>
                                 </div>
-                                <div className="w-full h-3 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                                    <div
-                                        className={`h-full rounded-full transition-all duration-1000 ${i % 2 === 0 ? 'bg-blue-500' : 'bg-purple-500'}`}
-                                        style={{ width: `${Math.floor(Math.random() * 60 + 20)}%` }}
-                                    ></div>
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
 
